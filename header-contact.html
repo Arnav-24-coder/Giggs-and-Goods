@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+body {
+  margin: 0;
+  background-color: #f8f9fa;
+            background-image: url(https://t3.ftcdn.net/jpg/01/87/51/70/360_F_187517097_jGOpsrBp0mS5LIvRf1b9Sko2A75I5cqf.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+p.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 95%;
+  border: none;
+  text-align: left;
+  outline: none;
+  transition: 0.4s;
+}
+
+/* Add a background color to the accordion if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+p.accordion.active, p.accordion:hover {
+  background-color: #ccc; 
+}
+
+/* Unicode character for "plus" sign (+) */
+p.accordion:after {
+    content: '\2795'; 
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+}
+
+/* Unicode character for "minus" sign (-) */
+p.accordion.active:after {
+    content: "\2796"; 
+}
+
+/* Style the element that is used for the panel class */
+
+div.panel {
+    padding-left: 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-bottom: -30px;
+}
+
+div.panel.show {
+    opacity: 1;
+    margin-top: -11px;
+    padding-bottom: 20px;
+    max-height: 500px; /* Whatever you like, as long as its more than the height of the content (on all screen sizes) */
+}
+
+
+.header {
+  background: linear-gradient(to right, #0a700a, #27b827);
+            background-size: cover;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 2em;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        .column {
+            flex: 1;
+            border-style: solid;
+            border-color: #046b04;
+            border-width: 6px;
+            background-color: #f2f2f2;
+            min-width: 300px;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .contact-info p {
+            margin: 5px 0;
+            font-size: 18px;
+            transition: transform 0.3s ease, color 0.3s ease; /* Smooth scaling and color change */
+        }
+        .contact-info p:hover {
+            transform: scale(1.05); /* Slight magnification */
+            color: #4ed12d; /* Optional: change the text color on hover */
+        }
+        .contact-info span {
+            font-weight: bold;
+            color: #058305;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #495057;
+        }
+        .form-group input, .form-group textarea {
+            width: 95%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #495057;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            margin: 0 auto;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #80bdff;
+            outline: none;
+            box-shadow: 0 0 5px rgb(2, 146, 2);
+        }
+        .form-group textarea {
+            resize: vertical;
+            height: 120px;
+        }
+        .submit-btn {
+            display: block;
+            width: 80%;
+            padding: 15px;
+            background-color: #058305;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin: 0 auto;
+        }
+        .submit-btn:hover {
+            background-color: #046b04;
+            transform: scale(1.05);
+        }
+        .contact-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .contact-image {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact-image:hover {
+        transform: scale(1.05); /* Slight magnification */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a subtle shadow effect */
+    }
+
+    .label {
+  color: white;
+  padding: 8px;
+}
+
+.other {background-color: #e7e7e7; color: black;} /* Gray */ 
+
+/* LOGIN : Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* LOGIN : Set a style for all buttons */
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* LOGIN : Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* LOGIN : Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* LOGIN : The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 300px; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background: linear-gradient(to right, #0a700a, #27b827);
+   color: White;
+   text-align: Left;
+   padding-left: 20px;
+   Padding-top: 10px;
+}
+
+
+.icon-bar {
+  position: fixed;
+  top: 70%;
+  transform: translateY(-50%);
+}
+
+.icon-bar a {
+  display: block;
+  text-align: center;
+  padding: 16px;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 20px;
+}
+
+.icon-bar a:hover {
+  background-color: #000;
+}
+
+.facebook {
+  background: #3B5998;
+  color: white;
+}
+
+.twitter {
+  background: #55ACEE;
+  color: white;
+}
+
+.google {
+  background: #dd4b39;
+  color: white;
+}
+
+.linkedin {
+  background: #007bb5;
+  color: white;
+}
+
+.youtube {
+  background: #bb0000;
+  color: white;
+}
+
+
+
+
+
+.topnav {
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 17px;    
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.topnav a:hover, .dropdown:hover .dropbtn {
+  background-color: #ddd;
+  color: black;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Create a right-aligned (split) link inside the navigation bar */
+.topnav a.split {
+  float: right;
+  background-color: #04AA6D;
+  color: white;
+}
+
+@media screen and (max-width: 650px) {
+  .topnav a:not(:first-child), .dropdown .dropbtn {display: none;
+  }
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+ } 
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  
+ .topnav.responsive .dropdown {float: none;}
+ .topnav.responsive .dropdown-content {position: relative;}
+  .topnav.responsive .dropdown .dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }  
+  
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  } 
+}
+
+
+
+
+</style>
+</head>
+<body style="background-color:white;">
+
+  <div class="header">
+    Giggs and Goods
+    <div class="horizontal-line"></div>
+</div>
+
+
+<div class="topnav" id="myTopnav">
+  <a href="index.html"><i class="fa fa-fw fa-home"></i>Home</a>
+  <a href="header-products.html"><i class="fa fa-fw fa-th-list" aria-hidden="true"></i>Product</a>
+  <a href="header-contact.html" class="active"><i class="fa fa-fw fa-envelope"></i>Contact</a>
+  <a href="header-about.html"><i class="fa fa-fw fa-user"></i>About</a>
+  
+  <div class="dropdown">
+    <button class="dropbtn" ><i class="fa fa-fw fa-book"></i>Help<i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">Link 1</a>
+      <a href="#">Link 2</a>
+      <a href="#">Link 3</a>
+    </div>
+    
+  </div> 
+  
+
+  
+   <a href="#Login" class="split" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
+  
+    
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+
+
+
+<div id="id01" class="modal">
+  
+  <form class="modal-content animate" action="/action_page.php" method="post">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+      <img src="img_avatar2.png" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+        
+      <button type="submit">Login</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+  </form>
+</div>
+
+
+
+<div class="icon-bar">
+  <a href="#" class="facebook"><i class="fa fa-facebook"></i></a> 
+  <a href="#" class="twitter"><i class="fa fa-twitter"></i></a> 
+  <a href="#" class="google"><i class="fa fa-google"></i></a> 
+  <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+  <a href="#" class="youtube"><i class="fa fa-youtube"></i></a> 
+</div>
+
+<h1><span class="label other">Contact Us</span></h1>
+
+<div class="container">
+  <div class="column">
+      <h3>Request a Call</h3>
+      <div class="contact-info">
+          <div>
+              <p><span>Email:</span> giggsandgoods@gmail.com</p>
+          </div>
+          <div>
+              <p><span>Phone:</span> 123-456-7890</p>
+          </div>
+          <div>
+              <p><span>Address:</span> XXXXXXX Street, XXXXX Country</p>
+          </div>
+          <div>
+              <p><span>Need Help?</span> Contact us for any assistance or support you may need with our products or services. Our dedicated customer service team is available to assist you with any questions or concerns you may have.</p>
+          </div>
+      </div>
+      <h3>FAQs</h3>
+
+      <p class="accordion">What are the store opening hours?</p>
+      <div class="panel">Saturday to Wednesday<br>
+        08:30 am – 12:00 am (midnight)<br>
+        Thursday & Friday<br>
+        8:30 am – 1:00 am<br>
+        Closed for prayers from 11am to 1pm.</div>
+      
+      <p class="accordion">Where is my nearest store?</p>
+      <div class="panel">XXXXXXX Street, XXXXX Country</div>
+      
+      <p class="accordion">I have left some shopping in the store, how can I get this back?</p>
+      <div class="panel">In the event of leaving any shopping in store, please return to store and check if this has been handed in. Please carry your receipt as this will be needed to verify the shopping in question.</div>
+      
+      <p class="accordion">What payments types do you accept?</p>
+      <div class="panel">We accept all major payment recorders including Visa, MasterCard, American Express and Apple Pay.</div>
+      
+
+
+      <script>
+      document.addEventListener("DOMContentLoaded", function(event) { 
+      
+      
+      var acc = document.getElementsByClassName("accordion");
+      var panel = document.getElementsByClassName('panel');
+      
+      for (var i = 0; i < acc.length; i++) {
+          acc[i].onclick = function() {
+              var setClasses = !this.classList.contains('active');
+              setClass(acc, 'active', 'remove');
+              setClass(panel, 'show', 'remove');
+      
+              if (setClasses) {
+                  this.classList.toggle("active");
+                  this.nextElementSibling.classList.toggle("show");
+              }
+          }
+      }
+      
+      function setClass(els, className, fnName) {
+          for (var i = 0; i < els.length; i++) {
+              els[i].classList[fnName](className);
+          }
+      }
+      
+      });
+      </script>
+  </div>
+  <div class="column">
+      <form action="/contact" method="post">
+          <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" placeholder="Your name..">
+          </div>
+          <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" placeholder="Your email..">
+          </div>
+          <div class="form-group">
+              <label for="phone">Phone:</label>
+              <input type="tel" id="phone" name="phone" placeholder="Your phone number..">
+          </div>
+          <div class="form-group">
+              <label for="subject">Subject:</label>
+              <input type="text" id="subject" name="subject" placeholder="Subject..">
+          </div>
+          <div class="form-group">
+              <label for="feedback">Feedback:</label>
+              <textarea id="feedback" name="feedback" placeholder="Your feedback.."></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Submit</button>
+      </form>
+  </div>
+</div>
+
+<div>
+  <p><br></p>
+  <p><br></p>
+  <p><br></p>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
+
+
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+
+</body>
+
+<footer>
+
+<div class="footer">
+<nav>
+  <a href="/privacy">Privacy Policy</a>
+</nav>
+  <p>&copy; 2025 Giggs and Goods. All rights reserved.</p>
+</div>
+</footer>
+
+</html>
